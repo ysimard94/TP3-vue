@@ -1,18 +1,28 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <ProductForm :msg="msg" @addTo="newProduct"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import ProductForm from '@/components/ProductForm.vue'
 
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+    ProductForm
+  },
+  props: {
+    msg: String,
+    addProduct: Function,
+    products: Array,
+    valid: Boolean
+  },
+  methods: {
+    newProduct (product) {
+      this.$emit('addProduct', product)
+    }
   }
 }
 </script>
