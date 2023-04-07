@@ -2,8 +2,7 @@
 Ceci est un projet CRUD simple fait avec Vue.js ainsi qu'en utilisant un serveur utilisant Node.js, MySQL, Sequelize, Cors ainsi qu'Express.
 
 ## Installation
-```
-À la racine du projet ainsi que dans le répertoire server :
+Utilisez cette commande dans la racine du projet ainsi que dans le répertoire server :
 `npm install`
 
 Créer la base de données MySQL:
