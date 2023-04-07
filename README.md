@@ -1,24 +1,16 @@
-# tp3-product-vue
+## Présentation
+Ceci est un projet CRUD simple fait avec Vue.js ainsi qu'en utilisant un serveur utilisant Node.js, MySQL, Sequelize, Cors ainsi qu'Express.
 
-## Project setup
+## Installation
 ```
-npm install
-```
+À la racine du projet ainsi que dans le répertoire server :
+`npm install`
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+Créer la base de données MySQL:
+`CREATE DATABASE db_product`
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Démarrez le server en utilisant cette commande dans le terminal à partir du dossier server:
+`node server.js`
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Ensuite utilisez cette commande à partir de la racine du projet:
+`npm run serve`
