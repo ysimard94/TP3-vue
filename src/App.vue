@@ -1,30 +1,83 @@
 <template>
-  <nav>
-    <router-link to="/">Add Product</router-link> |
-    <router-link to="/products">Product List</router-link>
-  </nav>
-  <div class="container">
-    <router-view @addProduct="addProduct" @deleteProduct="deleteProduct" :products="allProducts" />
-  </div>
+    <nav>
+        <router-link to="/">Add Product</router-link> |
+        <router-link to="/products">Product List</router-link>
+    </nav>
+    <div class="container">
+        <router-view @addProduct="addProduct" @deleteProduct="deleteProduct" :products="allProducts" :categories="categories"/>
+    </div>
 </template>
 
 <script>
+import ProductDataService from '@/services/ProductDataService'
+
 export default {
-  name: 'App',
-  data () {
-    return {
-      allProducts: [],
-      id: 0
-    }
+    name: 'App',
+    data () {
+        return {
+            allProducts: [],
+            /*
+                Images prises de :
+                https://www.royalautomobileclub.co.uk/pall-mall/visiting-pall-mall/business-meetings-and-electronic-devices/
+                https://www.greenqueen.com.hk/new-clothes-climate-disaster-report/
+                https://elearningindustry.com/top-10-books-every-college-student-read
+                https://www.timeout.com/montreal/shopping/best-furniture-stores-montreal
+            */
+           // Liste des catégories des produits avec leur image associée qui est envoyé en prop à la composante ProductForm dans HomeView et la view EditView
+           categories: [
+                {
+                    name: 'Electronics',
+                    path: require('@/assets/images/electronics.jpg')
+                },
+                {
+                    name: 'Clothes',
+                    path: require('@/assets/images/clothes.jpg')
+                },
+                {
+                    name: 'Books',
+                    path: require('@/assets/images/books.jpeg')
+                },
+                {
+                    name: 'Furniture',
+                    path: require('@/assets/images/furniture.jpg')
+                }
+            ]
+        }
   },
   methods: {
+    // Va faire une requête à l'API pour ajouter un produit
     addProduct (product) {
-      product.id = this.id++
-      this.allProducts.push(product)
+      ProductDataService.create(product)
+        .then(response => {
+            this.allProducts.push(response.data)
+            console.log(response.data)
+        })
+        .catch(e => {
+            console.log(e)
+      })
     },
+    // Va faire une requête à l'API pour supprimer un produit
     deleteProduct (product) {
-      this.allProducts = this.allProducts.filter(p => p.id !== product.id)
+      ProductDataService.delete(product.id)
+        .then(response => {
+            this.allProducts = this.allProducts.filter(p => p.id !== product.id)
+            console.log(response.data)
+        })
+        .catch(e => {
+            console.log(e)
+        })
     }
+  },
+  mounted () {
+    // Va automatiquement faire une requête à l'api pour récupérer tous les produits et l'insérer dans le tableau allProducts, qui est envoyé dans les views en props
+    ProductDataService.getAll()
+      .then(response => {
+            this.allProducts = response.data
+            console.log(response.data)
+      })
+      .catch(e => {
+            console.log(e)
+      })
   }
 }
 </script>
@@ -36,7 +89,7 @@ body {
 
 #app {
   background-color: #F7F3F1;
-  max-width: 800px;
+  max-width: 900px;
   margin-inline: auto;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
